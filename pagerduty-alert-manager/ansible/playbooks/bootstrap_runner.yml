@@ -1,11 +1,10 @@
-- name: Bootstrap GitHub Actions self-hosted runner
+- name: Bootstrap GitHub Runner on EC2
   hosts: runner
-  become: true
+  become: yes
+  vars_files:
+    - ../group_vars/runner.yml    # non-sensitive vars
+    - ../vault/secrets.yml        # encrypted secrets
   roles:
     - github_runner
 
-  handlers:
-    - name: Restart runner
-      systemd:
-        name: github-runner.service
-        state: restarted
+

@@ -1,6 +1,7 @@
-github_repo: "your-org/your-repo"        # Format: org/repo where the runner will register
-github_runner_labels: "ec2-pagerduty"    # Labels used by workflow's runs-on
-github_runner_version: "2.319.1"         # Actions runner version
+
 # IMPORTANT: Generate a registration token from GitHub: Settings -> Actions -> Runners -> New self-hosted runner
 # The token expires quickly; supply at runtime or put here (consider using Ansible Vault)
-github_runner_token: "REPLACE_WITH_TEMP_RUNNER_TOKEN"
+
+github_repo: "d9007604265/sre-work-space"    # Format: org/repo where the runner will register
+github_runner_labels: "ec2-pagerduty"        # Keep or modify as needed
+github_runner_version: "2.319.1"             # Keep or update as needed

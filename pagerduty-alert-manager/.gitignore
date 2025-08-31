@@ -1,4 +1,62 @@
+# ---------------------------
 # Terraform
+# ---------------------------
 **/.terraform/*
 *.tfstate
+*.tfstate.*
 *.tfplan
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Ignore backend configs (contain sensitive info)
+infra/**/terraform.tfbackend
+app/alert-infra/terraform.tfbackend
+
+# ---------------------------
+# Ansible
+# ---------------------------
+*.retry
+*.vault_pass
+*.secret
+ansible/inventory.ini
+ansible/group_vars/*.yml
+
+# Optional: allow example inventories
+!ansible/inventory.sample.ini
+!ansible/group_vars/example.yml
+
+# ---------------------------
+# Python / Virtualenv
+# ---------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# ---------------------------
+# OS / Editor Files
+# ---------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+
+# ---------------------------
+# GitHub Actions Runners (self-hosted)
+# ---------------------------
+_runner/
+actions-runner/
+_work/
