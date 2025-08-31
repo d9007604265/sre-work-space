@@ -1,0 +1,64 @@
+- name: Ensure prerequisites are installed
+  become: true
+  package:
+    name:
+      - tar
+      - curl
+      - jq
+    state: present
+
+- name: Create runner user
+  become: true
+  user:
+    name: github
+    comment: "GitHub Actions Runner"
+    create_home: yes
+    shell: /bin/bash
+
+- name: Create runner directory
+  become: true
+  file:
+    path: /opt/actions-runner
+    state: directory
+    owner: github
+    group: github
+    mode: "0755"
+
+- name: Download actions runner
+  become: true
+  become_user: github
+  shell: |
+    cd /opt/actions-runner
+    curl -L -o actions-runner.tar.gz https://github.com/actions/runner/releases/download/v{{ github_runner_version }}/actions-runner-linux-x64-{{ github_runner_version }}.tar.gz
+    tar xzf actions-runner.tar.gz
+  args:
+    creates: /opt/actions-runner/run.sh
+
+- name: Install runner dependencies
+  become: true
+  shell: /opt/actions-runner/bin/installdependencies.sh
+
+- name: Configure the runner
+  become: true
+  become_user: github
+  shell: |
+    cd /opt/actions-runner
+    ./config.sh --url https://github.com/{{ github_repo }}                 --token {{ github_runner_token }}                 --labels {{ github_runner_labels }}                 --unattended
+  args:
+    creates: /opt/actions-runner/.runner
+
+- name: Install systemd service
+  become: true
+  copy:
+    dest: /etc/systemd/system/github-runner.service
+    content: |
+      {{ lookup('template', 'github-runner.service.j2') }}
+  notify: Restart runner
+
+- name: Enable & start runner
+  become: true
+  systemd:
+    name: github-runner.service
+    enabled: true
+    state: started
+

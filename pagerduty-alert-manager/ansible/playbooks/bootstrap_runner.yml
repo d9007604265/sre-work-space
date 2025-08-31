@@ -1,0 +1,11 @@
+- name: Bootstrap GitHub Actions self-hosted runner
+  hosts: runner
+  become: true
+  roles:
+    - github_runner
+
+  handlers:
+    - name: Restart runner
+      systemd:
+        name: github-runner.service
+        state: restarted

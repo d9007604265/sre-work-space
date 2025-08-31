@@ -1,0 +1,12 @@
+name: PagerDuty IaC
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  terraform:
+    runs-on: [self-hosted, ec2-pagerduty]
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo 'terraform plan/apply here'

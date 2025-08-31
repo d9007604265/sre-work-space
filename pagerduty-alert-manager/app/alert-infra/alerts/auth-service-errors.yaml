@@ -1,0 +1,11 @@
+groups:
+  - name: auth-service-alerts
+    rules:
+      - alert: AuthServiceErrors
+        expr: rate(http_requests_total{service="auth-service",status=~"5.."}[5m]) > 0.5
+        for: 5m
+        labels:
+          severity: error
+        annotations:
+          summary: "AuthServiceErrors"
+          description: "5xx error rate > 0.5/s for 5m"

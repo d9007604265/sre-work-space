@@ -1,0 +1,4 @@
+bucket         = "REPLACE_WITH_STATE_BUCKET_NAME"
+key            = "app/alert-infra/terraform.tfstate"
+region         = "us-east-1"
+dynamodb_table = "terraform-locks"

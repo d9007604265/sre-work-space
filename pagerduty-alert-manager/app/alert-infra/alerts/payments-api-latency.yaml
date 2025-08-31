@@ -1,0 +1,11 @@
+groups:
+  - name: payments-api-alerts
+    rules:
+      - alert: PaymentsApiHighLatency
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{service="payments-api"}[5m])) > 0.2
+        for: 5m
+        labels:
+          severity: error
+        annotations:
+          summary: "PaymentsApiHighLatency"
+          description: "P95 latency >200ms for 5m"
